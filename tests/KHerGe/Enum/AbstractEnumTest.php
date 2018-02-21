@@ -172,6 +172,32 @@ class AbstractEnumTest extends TestCase
     }
 
     /**
+     * @depends testCompareVariantsWithArguments
+     *
+     * Verify that a new instance is created for a name.
+     */
+    public function testCreateInstanceForName()
+    {
+        self::assertTrue(
+            Example::ONE('a')->isExactly(Example::of('ONE', 'a')),
+            'The instance must be returned for the variant.'
+        );
+    }
+
+    /**
+     * @depends testCompareVariantsWithArguments
+     *
+     * Verify that a new instance is created for a value.
+     */
+    public function testCreateInstanceForValue()
+    {
+        self::assertTrue(
+            Example::ONE('a')->isExactly(Example::ofValue(1, 'a')),
+            'The instance must be returned for the variant.'
+        );
+    }
+
+    /**
      * Verify that all enum variants are returned.
      */
     public function testGetAllVariants()

@@ -281,6 +281,36 @@ abstract class AbstractEnum
     }
 
     /**
+     * Creates a new enum variant instance for a name.
+     *
+     * @param string $name         The name.
+     * @param mixed  $argument,... An argument.
+     *
+     * @return AbstractEnum The new instance.
+     */
+    public static function of(string $name, ...$arguments) : AbstractEnum
+    {
+        $class = get_called_class();
+
+        return $class::__callStatic($name, $arguments);
+    }
+
+    /**
+     * Creates a new enum variant instance for a value.
+     *
+     * @param mixed $value        The value.
+     * @param mixed $argument,... An argument.
+     *
+     * @return AbstractEnum The new instance.
+     */
+    public static function ofValue($value, ...$arguments) : AbstractEnum
+    {
+        $class = get_called_class();
+
+        return $class::__callStatic($class::nameOf($value), $arguments);
+    }
+
+    /**
      * Returns all of the variants for the enum as NAME => VALUE map.
      *
      * ```

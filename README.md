@@ -85,6 +85,12 @@ if (Example::has('ONE')) {
 if (Example::hasValue(1)) {
     // ... valid ...
 }
+
+// Create a new enum variant instance using a name.
+$one = Example::of('ONE');
+
+// Create a new enum variant instance using a value.
+$one = Example::ofValue(1);
 ```
 
 Requirements
