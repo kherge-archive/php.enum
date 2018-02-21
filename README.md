@@ -75,6 +75,16 @@ $values = Example::getValues();
 
 // A map of all variant names and values can be retrieved.
 $variants = Example::toArray();
+
+// Check if a variant is valid.
+if (Example::has('ONE')) {
+    // ... valid ...
+}
+
+// Check if a variant value is valid.
+if (Example::hasValue(1)) {
+    // ... valid ...
+}
 ```
 
 Requirements

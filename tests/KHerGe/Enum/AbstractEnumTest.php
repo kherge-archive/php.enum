@@ -199,6 +199,24 @@ class AbstractEnumTest extends TestCase
     }
 
     /**
+     * Verifies the validity of a variant name is checked.
+     */
+    public function testHasVariant()
+    {
+        self::assertTrue(Example::has('ONE'), 'The variant name must be valid.');
+        self::assertFalse(Example::has('TEST'), 'The variant name must not be valid.');
+    }
+
+    /**
+     * Verifies the validity of a variant value is checked.
+     */
+    public function testHasVariantValue()
+    {
+        self::assertTrue(Example::hasValue(1), 'The variant value must be valid.');
+        self::assertFalse(Example::hasValue(123), 'The variant value must not be valid.');
+    }
+
+    /**
      * Verify that value reuse between variants throws an exception.
      */
     public function testVariantValueReuseThrowsException()

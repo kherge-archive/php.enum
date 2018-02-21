@@ -178,6 +178,38 @@ abstract class AbstractEnum
     }
 
     /**
+     * Checks if the name of a variant is valid.
+     *
+     * @param string $name The name.
+     *
+     * @return boolean Returns `true` if valid or `false` if not.
+     */
+    public static function has(string $name) : bool
+    {
+        $class = get_called_class();
+
+        self::prepareMap($class);
+
+        return array_key_exists($name, self::$maps['name'][$class]);
+    }
+
+    /**
+     * Checks if the value of a variant is valid.
+     *
+     * @param mixed $value The value.
+     *
+     * @return boolean Returns `true` if valid or `false` if not.
+     */
+    public static function hasValue($value) : bool
+    {
+        $class = get_called_class();
+
+        self::prepareMap($class);
+
+        return array_key_exists($value, self::$maps['value'][$class]);
+    }
+
+    /**
      * Checks if another instance is equal to this one, ignoring variant arguments.
      *
      * ```
