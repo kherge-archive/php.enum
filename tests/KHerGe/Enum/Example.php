@@ -7,7 +7,7 @@ namespace Tests\KHerGe\Enum;
 use KHerGe\Enum\AbstractEnum;
 
 /**
- * An example variant.
+ * An example enum.
  *
  * @author Kevin Herrera <kevin@herrera.io>
  */
