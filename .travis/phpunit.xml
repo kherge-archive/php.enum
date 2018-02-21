@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  PHPUnit Configuration
+
+  https://phpunit.readthedocs.io/en/latest/configuration.html
+-->
+<phpunit
+  backupGlobals="false"
+  bootstrap="../vendor/autoload.php"
+  colors="true"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/7.0/phpunit.xsd"
+>
+
+  <!--
+    PHP ini settings, constants, and global values.
+
+    #setting-php-ini-settings-constants-and-global-variables
+  -->
+  <php>
+    <ini name="error_reporting" value="-1"/>
+  </php>
+
+  <!--
+    Test case segmentation.
+
+    #test-suites
+  -->
+  <testsuites>
+    <testsuite name="full">
+      <directory>../tests</directory>
+    </testsuite>
+  </testsuites>
+
+  <!--
+    Code coverage filtering.
+
+    #whitelisting-files-for-code-coverage
+  -->
+  <filter>
+    <whitelist>
+      <directory>../src</directory>
+    </whitelist>
+  </filter>
+
+  <!--
+    Test execution logging.
+
+    #logging
+  -->
+  <logging>
+    <log type="coverage-clover" target="clover.xml"/>
+  </logging>
+
+</phpunit>

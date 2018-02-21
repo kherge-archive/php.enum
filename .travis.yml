@@ -1,0 +1,36 @@
+addons:
+    sonarcloud:
+        organization: kherge-github
+        branches:
+            - master
+
+after_success: sonar-scanner -Dsonar.projectKey=php.enum -Dsonar.sources=src
+
+branches:
+    only:
+        - master
+
+dist: trusty
+
+git:
+    depth: 1
+
+install: composer install
+
+language: php
+
+matrix:
+
+    allow_failures:
+        - php: nightly
+
+    fast_finish: true
+
+    include:
+        - php: 7.1
+        - php: 7.2
+        - php: nightly
+
+script: phpunit --configuration .travis/phpunit.xml
+
+sudo: false
