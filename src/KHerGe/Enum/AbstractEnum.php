@@ -77,7 +77,7 @@ abstract class AbstractEnum
 
         self::prepareMap($class);
 
-        if (!isset(self::$maps['name'][$class][$name])) {
+        if (!array_key_exists($name, self::$maps['name'][$class])) {
             throw new EnumException('The variant %s for %s is not valid.', $name, $class);
         }
 
