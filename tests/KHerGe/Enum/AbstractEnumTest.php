@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\KHerGe\Enum;
 
 use KHerGe\Enum\AbstractEnum;
+use KHerGe\Enum\EnumException;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 
@@ -23,6 +24,17 @@ class AbstractEnumTest extends TestCase
         $variant = Example::ONE();
 
         self::assertInstanceOf(Example::class, $variant, 'The correct class was not instantiated.');
+    }
+
+    /**
+     * Verify that an exception is thrown for an invalid variant.
+     */
+    public function testInvalidVariantThrowsException()
+    {
+        $this->expectException(EnumException::class);
+        $this->expectExceptionMessage(sprintf('The variant TEST for %s is not valid.', Example::class));
+
+        Example::TEST();
     }
 
     /**
@@ -133,10 +145,43 @@ class AbstractEnumTest extends TestCase
     }
 
     /**
+     * Verify that an exception is thrown if no variant uses a value.
+     */
+    public function testGetNameForInvalidValueThrowsException()
+    {
+        $this->expectException(EnumException::class);
+        $this->expectExceptionMessage(sprintf('The value 123 is not used by any variant of %s.', Example::class));
+
+        Example::nameOf(123);
+    }
+
+    /**
      * Verify that the value of a variant is returned for its name.
      */
     public function testGetValueForName()
     {
         self::assertEquals(1, Example::valueOf('ONE'), 'The value must be returned.');
+    }
+
+    /**
+     * Verify that an exception is thrown if no variant uses a name.
+     */
+    public function testGetValueForInvalidNameThrowsException()
+    {
+        $this->expectException(EnumException::class);
+        $this->expectExceptionMessage(sprintf('The variant TEST for %s is not valid.', Example::class));
+
+        Example::valueOf('TEST');
+    }
+
+    /**
+     * Verify that value reuse between variants throws an exception.
+     */
+    public function testVariantValueReuseThrowsException()
+    {
+        $this->expectException(EnumException::class);
+        $this->expectExceptionMessage(sprintf('The value for ONE in %s is reused by TWO.', InvalidExample::class));
+
+        InvalidExample::ONE();
     }
 }
