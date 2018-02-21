@@ -123,6 +123,25 @@ abstract class AbstractEnum
     }
 
     /**
+     * Returns all of the enum variant names.
+     *
+     * ```
+     * // Array ( [0] => ONE, [1] => TWO )
+     * print_r(Example::getNames());
+     * ```
+     *
+     * @return string[] The names.
+     */
+    public static function getNames() : array
+    {
+        $class = get_called_class();
+
+        self::prepareMap($class);
+
+        return array_keys(self::$maps['name'][$class]);
+    }
+
+    /**
      * Returns the value of the variant.
      *
      * ```
@@ -137,6 +156,25 @@ abstract class AbstractEnum
     public function getValue()
     {
         return $this->value;
+    }
+
+    /**
+     * Returns all of the enum variant values.
+     *
+     * ```
+     * // Array ( [0] => 1, [1] => 2 )
+     * print_r(Example::getValues());
+     * ```
+     *
+     * @return mixed[] The values.
+     */
+    public static function getValues() : array
+    {
+        $class = get_called_class();
+
+        self::prepareMap($class);
+
+        return array_values(self::$maps['name'][$class]);
     }
 
     /**
@@ -208,6 +246,25 @@ abstract class AbstractEnum
         }
 
         return self::$maps['value'][$class][$value];
+    }
+
+    /**
+     * Returns all of the variants for the enum as NAME => VALUE map.
+     *
+     * ```
+     * // Array ( [ONE] => 1, [TWO] => 2 )
+     * print_r(Example::toArray());
+     * ```
+     *
+     * @return mixed[] The variants.
+     */
+    public static function toArray() : array
+    {
+        $class = get_called_class();
+
+        self::prepareMap($class);
+
+        return self::$maps['name'][$class];
     }
 
     /**

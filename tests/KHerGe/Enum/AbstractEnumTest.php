@@ -91,6 +91,14 @@ class AbstractEnumTest extends TestCase
     }
 
     /**
+     * Verify that all variant names are returned.
+     */
+    public function testGetAllVariantNames()
+    {
+        self::assertEquals(['ONE', 'TWO'], Example::getNames(), 'The names must be returned.');
+    }
+
+    /**
      * @depends testCreateInstanceOfVariant
      *
      * Verify that the value of the variant is returned.
@@ -100,6 +108,14 @@ class AbstractEnumTest extends TestCase
         $variant = Example::ONE();
 
         self::assertEquals(1, $variant->getValue(), 'The value must be returned.');
+    }
+
+    /**
+     * Verify that all variant values are returned.
+     */
+    public function testGetAllVariantValues()
+    {
+        self::assertEquals([1, 2], Example::getValues(), 'The values must be returned.');
     }
 
     /**
@@ -153,6 +169,14 @@ class AbstractEnumTest extends TestCase
         $this->expectExceptionMessage(sprintf('The value 123 is not used by any variant of %s.', Example::class));
 
         Example::nameOf(123);
+    }
+
+    /**
+     * Verify that all enum variants are returned.
+     */
+    public function testGetAllVariants()
+    {
+        self::assertEquals(['ONE' => 1, 'TWO' => 2], Example::toArray(), 'All variants must be returned.');
     }
 
     /**

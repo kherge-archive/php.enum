@@ -66,6 +66,15 @@ if (Example::ONE()->is(Example::ONE())) {
 if (!Example::ONE()->isExactly(Example::ONE('a', 'b', 'c'))) {
     // ... not equivalent ...
 }
+
+// All variant names can be retrieved.
+$names = Example::getNames();
+
+// All variant values can be retrieved.
+$values = Example::getValues();
+
+// A map of all variant names and values can be retrieved.
+$variants = Example::toArray();
 ```
 
 Requirements
