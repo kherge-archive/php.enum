@@ -269,7 +269,12 @@ abstract class AbstractEnum
 
         foreach ((new ReflectionClass($class))->getConstants() as $name => $value) {
             if (array_key_exists($value, self::$maps['value'][$class])) {
-                throw new EnumException('The value for %s in %s is reused.', $name, $class);
+                throw new EnumException(
+                    'The value for %s in %s is reused by %s.',
+                    self::$maps['value'][$class][$value],
+                    $class,
+                    $name
+                );
             }
 
             self::$maps['name'][$class][$name] = $value;
