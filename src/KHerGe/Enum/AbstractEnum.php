@@ -67,7 +67,7 @@ abstract class AbstractEnum
      * @param string $name      The name of the variant.
      * @param array  $arguments The arguments for the variant.
      *
-     * @return AbstractEnum The variant.
+     * @return static The variant.
      *
      * @throws EnumException If the variant is not valid.
      */
@@ -286,7 +286,7 @@ abstract class AbstractEnum
      * @param string $name         The name.
      * @param mixed  $argument,... An argument.
      *
-     * @return AbstractEnum The new instance.
+     * @return static The new instance.
      */
     public static function of(string $name, ...$arguments) : AbstractEnum
     {
@@ -301,7 +301,7 @@ abstract class AbstractEnum
      * @param mixed $value        The value.
      * @param mixed $argument,... An argument.
      *
-     * @return AbstractEnum The new instance.
+     * @return static The new instance.
      */
     public static function ofValue($value, ...$arguments) : AbstractEnum
     {
