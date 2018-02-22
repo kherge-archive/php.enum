@@ -121,6 +121,23 @@ $one = Example::ONE('something');
 print_r($one->getArguments());
 ```
 
+#### Validating Element Arguments
+
+Argument validation is also supported for enums.
+
+```php
+class Example extends AbstractEnum
+{
+    const ONE = 1;
+    const TWO = 2;
+
+    protected static function validateArguments(string $name, $value, array $arguments) : void
+    {
+        // How $arguments is validated is up to yo.
+    }
+}
+```
+
 ## Getting Elements
 
 You can retrieve a list of all the element names,
