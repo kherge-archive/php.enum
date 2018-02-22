@@ -4,7 +4,8 @@ addons:
         branches:
             - master
 
-after_success: sonar-scanner -Dsonar.projectKey=php.enum -Dsonar.sources=src
+after_success:
+    - sonar-scanner -Dsonar.projectKey=php.enum -Dsonar.sources=src -Dsonar.projectName=php.enum "-Dsonar.projectVersion=$(git describe --tags)+build.$TRAVIS_BUILD_NUMBER"
 
 branches:
     only:
