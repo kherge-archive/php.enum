@@ -233,7 +233,7 @@ abstract class AbstractEnum
     }
 
     /**
-     * Checks if another instance is equal to this one, including element arguments.
+     * Checks if another instance is exactly equal to this one, including element arguments.
      *
      * ```
      * $left = Example::ONE();
@@ -253,6 +253,32 @@ abstract class AbstractEnum
         return (get_class($this) === get_class($instance))
             && ($this->name === $instance->getName())
             && ($this->arguments === $instance->getArguments());
+    }
+
+    /**
+     * Checks if another instance is loosely equal to this one, including element arguments.
+     *
+     * ```
+     * $leftDate = new DateTime();
+     * $rightDate = clone $leftDate;
+     *
+     * $left = Example::ONE($leftDate);
+     * $right = Example::ONE($rightDate);
+     *
+     * if ($left->isLoosely($right)) {
+     *     // ... equivalent ...
+     * }
+     * ```
+     *
+     * @param AbstractEnum $instance The enum instance.
+     *
+     * @return boolean Returns `true` if equal or `false` if not.
+     */
+    public function isLoosely(AbstractEnum $instance) : bool
+    {
+        return (get_class($this) === get_class($instance))
+            && ($this->name === $instance->getName())
+            && ($this->arguments == $instance->getArguments());
     }
 
     /**

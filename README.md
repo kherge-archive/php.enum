@@ -205,6 +205,20 @@ if (Example::ONE('a', 'b', 'c')->is($element)) {
 }
 ```
 
+If you need to loosely compare two enums with objects in their arguments, you can use `isLoosely()`.
+
+```php
+$leftDate = new DateTime();
+$rightDate = clone $leftDate;
+
+$left = Example::ONE($leftDate);
+$right = Example::ONE($rightDate);
+
+if ($left->isLoosely($right)) {
+    // They are loosely equivalent.
+}
+```
+
 ## Checking Elements
 
 The name of an element element can be validated,

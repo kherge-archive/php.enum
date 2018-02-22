@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\KHerGe\Enum;
 
+use DateTime;
 use KHerGe\Enum\AbstractEnum;
 use KHerGe\Enum\EnumException;
 use PHPUnit\Framework\TestCase;
@@ -138,9 +139,9 @@ class AbstractEnumTest extends TestCase
     /**
      * @depends testCreateInstanceOfElement
      *
-     * Verify that two elements are compared, including element arguments.
+     * Verify that two elements are compared exactly, including element arguments.
      */
-    public function testCompareElementsWithArguments()
+    public function testCompareElementsExactlyWithArguments()
     {
         $left = Example::ONE('a', 'b', 'c');
         $right = Example::ONE('a', 'b', 'c');
@@ -150,6 +151,26 @@ class AbstractEnumTest extends TestCase
         $right = Example::ONE();
 
         self::assertFalse($left->isExactly($right), 'The two elements must not be equal.');
+    }
+
+    /**
+     * @depends testCreateInstanceOfElement
+     *
+     * Verify that two elements are compared loosely, including element arguments.
+     */
+    public function testCompareElementsLooselyWithArguments()
+    {
+        $leftDate = new DateTime();
+        $rightDate = clone $leftDate;
+
+        $left = Example::ONE($leftDate);
+        $right = Example::ONE($rightDate);
+
+        self::assertTrue($left->isLoosely($right), 'The two elements must be equal.');
+
+        $right = Example::ONE();
+
+        self::assertFalse($left->isLoosely($right), 'The two elements must not be equal.');
     }
 
     /**
@@ -172,7 +193,7 @@ class AbstractEnumTest extends TestCase
     }
 
     /**
-     * @depends testCompareElementsWithArguments
+     * @depends testCompareElementsExactlyWithArguments
      *
      * Verify that a new instance is created for a name.
      */
@@ -185,7 +206,7 @@ class AbstractEnumTest extends TestCase
     }
 
     /**
-     * @depends testCompareElementsWithArguments
+     * @depends testCompareElementsExactlyWithArguments
      *
      * Verify that a new instance is created for a value.
      */
