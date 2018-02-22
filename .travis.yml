@@ -12,9 +12,6 @@ branches:
 
 dist: trusty
 
-git:
-    depth: 1
-
 install: composer install
 
 language: php
