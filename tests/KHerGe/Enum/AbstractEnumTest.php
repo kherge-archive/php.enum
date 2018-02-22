@@ -243,6 +243,17 @@ class AbstractEnumTest extends TestCase
     }
 
     /**
+     * Verify that an exception is thrown if element arguments are not valid.
+     */
+    public function testInvalidElementArgumentsThrowsException()
+    {
+        $this->expectException(EnumException::class);
+        $this->expectExceptionMessage('The enum only accepts: [DateTime]');
+
+        Example::TWO(123);
+    }
+
+    /**
      * Verify that value reuse between elements throws an exception.
      */
     public function testElementValueReuseThrowsException()

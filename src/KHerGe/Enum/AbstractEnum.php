@@ -83,6 +83,8 @@ abstract class AbstractEnum
 
         if (empty($arguments)) {
             $arguments = null;
+        } else {
+            static::validateArguments($name, self::$maps['name'][$class][$name], $arguments);
         }
 
         return new $class($name, self::$maps['name'][$class][$name], $arguments);
@@ -354,6 +356,20 @@ abstract class AbstractEnum
         }
 
         return self::$maps['name'][$class][$name];
+    }
+
+    /**
+     * Validates the arguments to be used for a new instance.
+     *
+     * @param string  $name      The name of the element.
+     * @param mixed   $value     The value of the element.
+     * @param mixed[] $arguments The arguments for the element.
+     *
+     * @throws EnumException If the arguments are not valid.
+     */
+    protected static function validateArguments(string $name, $value, array $arguments) : void
+    {
+        // Implementation left to child class.
     }
 
     /**
