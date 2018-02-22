@@ -10,8 +10,8 @@ use ReflectionClass;
  * An abstract implementation of an enum.
  *
  * A new enum is created by defining a class that extends this one. Each constant that is defined in the new class
- * becomes a variant of the enum. A variant is used by invoking the name as a static method of the enum class. This
- * produces a new instance of the enum for the specified variant.
+ * becomes an element of the enum. An element is used by invoking the name as a static method of the enum class. This
+ * produces a new instance of the enum for the specified element.
  *
  * ```
  * class Example extends AbstractEnum
@@ -20,8 +20,8 @@ use ReflectionClass;
  *     const TWO = 2;
  * }
  *
- * // Create an enum instance for a specific variant.
- * $variant = Example::ONE();
+ * // Create an enum instance for a specific element.
+ * $element = Example::ONE();
  * ```
  *
  * It is recommended that enum classes be declared as `final` to prevent inheritance based issues.
@@ -31,14 +31,14 @@ use ReflectionClass;
 abstract class AbstractEnum
 {
     /**
-     * The arguments for the variant.
+     * The arguments for the element.
      *
      * @var array|null
      */
     private $arguments;
 
     /**
-     * The enum variant maps.
+     * The enum element maps.
      *
      * @var array
      */
@@ -48,28 +48,28 @@ abstract class AbstractEnum
     ];
 
     /**
-     * The name of the variant.
+     * The name of the element.
      *
      * @var string
      */
     private $name;
 
     /**
-     * The value of the variant.
+     * The value of the element.
      *
      * @var mixed
      */
     private $value;
 
     /**
-     * Creates a new instance for an enum variant.
+     * Creates a new instance for an enum element.
      *
-     * @param string $name      The name of the variant.
-     * @param array  $arguments The arguments for the variant.
+     * @param string $name      The name of the element.
+     * @param array  $arguments The arguments for the element.
      *
-     * @return static The variant.
+     * @return static The element.
      *
-     * @throws EnumException If the variant is not valid.
+     * @throws EnumException If the element is not valid.
      */
     public static function __callStatic(string $name, array $arguments) : AbstractEnum
     {
@@ -78,7 +78,7 @@ abstract class AbstractEnum
         self::prepareMap($class);
 
         if (!array_key_exists($name, self::$maps['name'][$class])) {
-            throw new EnumException('The variant %s for %s is not valid.', $name, $class);
+            throw new EnumException('The element %s for %s is not valid.', $name, $class);
         }
 
         if (empty($arguments)) {
@@ -89,13 +89,13 @@ abstract class AbstractEnum
     }
 
     /**
-     * Returns the arguments for the variant.
+     * Returns the arguments for the element.
      *
      * ```
-     * $variant = Example::ONE('a', 'b', 'c');
+     * $element = Example::ONE('a', 'b', 'c');
      *
      * // Array ( [0] => a, [1] => b, [2] => c, )
-     * print_r($variant->getArguments());
+     * print_r($element->getArguments());
      * ```
      *
      * @return array|null The arguments, if any.
@@ -106,13 +106,13 @@ abstract class AbstractEnum
     }
 
     /**
-     * Returns the name of the variant.
+     * Returns the name of the element.
      *
      * ```
-     * $variant = Example::ONE();
+     * $element = Example::ONE();
      *
      * // "ONE"
-     * echo $variant->getName();
+     * echo $element->getName();
      * ```
      *
      * @return string The name.
@@ -123,7 +123,7 @@ abstract class AbstractEnum
     }
 
     /**
-     * Returns all of the enum variant names.
+     * Returns all of the enum element names.
      *
      * ```
      * // Array ( [0] => ONE, [1] => TWO )
@@ -142,13 +142,13 @@ abstract class AbstractEnum
     }
 
     /**
-     * Returns the value of the variant.
+     * Returns the value of the element.
      *
      * ```
-     * $variant = Example::ONE();
+     * $element = Example::ONE();
      *
      * // 1
-     * echo $variant->getValue();
+     * echo $element->getValue();
      * ```
      *
      * @return mixed The value.
@@ -159,7 +159,7 @@ abstract class AbstractEnum
     }
 
     /**
-     * Returns all of the enum variant values.
+     * Returns all of the enum element values.
      *
      * ```
      * // Array ( [0] => 1, [1] => 2 )
@@ -178,7 +178,7 @@ abstract class AbstractEnum
     }
 
     /**
-     * Checks if the name of a variant is valid.
+     * Checks if the name of a element is valid.
      *
      * @param string $name The name.
      *
@@ -194,7 +194,7 @@ abstract class AbstractEnum
     }
 
     /**
-     * Checks if the value of a variant is valid.
+     * Checks if the value of a element is valid.
      *
      * @param mixed $value The value.
      *
@@ -210,7 +210,7 @@ abstract class AbstractEnum
     }
 
     /**
-     * Checks if another instance is equal to this one, ignoring variant arguments.
+     * Checks if another instance is equal to this one, ignoring element arguments.
      *
      * ```
      * $left = Example::ONE();
@@ -231,7 +231,7 @@ abstract class AbstractEnum
     }
 
     /**
-     * Checks if another instance is equal to this one, including variant arguments.
+     * Checks if another instance is equal to this one, including element arguments.
      *
      * ```
      * $left = Example::ONE();
@@ -254,18 +254,18 @@ abstract class AbstractEnum
     }
 
     /**
-     * Returns the name of an enum variant for its value.
+     * Returns the name of an enum element for its value.
      *
      * ```
      * // "ONE"
      * echo Example::nameOf(1);
      * ```
      *
-     * @param mixed $value The value of the variant.
+     * @param mixed $value The value of the element.
      *
      * @return string The name.
      *
-     * @throws EnumException If no enum variant has the value.
+     * @throws EnumException If no enum element has the value.
      */
     public static function nameOf($value) : string
     {
@@ -274,14 +274,14 @@ abstract class AbstractEnum
         self::prepareMap($class);
 
         if (!array_key_exists($value, self::$maps['value'][$class])) {
-            throw new EnumException('The value %s is not used by any variant of %s.', $value, $class);
+            throw new EnumException('The value %s is not used by any element of %s.', $value, $class);
         }
 
         return self::$maps['value'][$class][$value];
     }
 
     /**
-     * Creates a new enum variant instance for a name.
+     * Creates a new enum element instance for a name.
      *
      * @param string $name         The name.
      * @param mixed  $argument,... An argument.
@@ -296,7 +296,7 @@ abstract class AbstractEnum
     }
 
     /**
-     * Creates a new enum variant instance for a value.
+     * Creates a new enum element instance for a value.
      *
      * @param mixed $value        The value.
      * @param mixed $argument,... An argument.
@@ -311,14 +311,14 @@ abstract class AbstractEnum
     }
 
     /**
-     * Returns all of the variants for the enum as NAME => VALUE map.
+     * Returns all of the elements for the enum as NAME => VALUE map.
      *
      * ```
      * // Array ( [ONE] => 1, [TWO] => 2 )
      * print_r(Example::toArray());
      * ```
      *
-     * @return mixed[] The variants.
+     * @return mixed[] The elements.
      */
     public static function toArray() : array
     {
@@ -330,18 +330,18 @@ abstract class AbstractEnum
     }
 
     /**
-     * Returns the value of an enum variant for its name.
+     * Returns the value of an enum elements for its name.
      *
      * ```
      * // 1
      * echo Example::valueOf('ONE');
      * ```
      *
-     * @param string $name The name of the variant.
+     * @param string $name The name of the elements.
      *
      * @return mixed The value.
      *
-     * @throws EnumException If the name is not a valid variant.
+     * @throws EnumException If the name is not a valid elements.
      */
     public static function valueOf(string $name)
     {
@@ -350,18 +350,18 @@ abstract class AbstractEnum
         self::prepareMap($class);
 
         if (!array_key_exists($name, self::$maps['name'][$class])) {
-            throw new EnumException('The variant %s for %s is not valid.', $name, $class);
+            throw new EnumException('The element %s for %s is not valid.', $name, $class);
         }
 
         return self::$maps['name'][$class][$name];
     }
 
     /**
-     * Initializes the enum variant.
+     * Initializes the enum element.
      *
-     * @param string     $name      The name of the variant.
-     * @param mixed      $value     The value of the variant.
-     * @param array|null $arguments The arguments for the variant.
+     * @param string     $name      The name of the element.
+     * @param mixed      $value     The value of the element.
+     * @param array|null $arguments The arguments for the element.
      */
     private function __construct(string $name, $value, ?array $arguments)
     {
@@ -375,7 +375,7 @@ abstract class AbstractEnum
      *
      * @param string $class The name of the enum class.
      *
-     * @throws EnumException If the value for an enum variant is reused.
+     * @throws EnumException If the value for an enum element is reused.
      */
     private static function prepareMap(string $class) : void
     {

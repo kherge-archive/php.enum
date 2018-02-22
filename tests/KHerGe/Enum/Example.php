@@ -14,12 +14,12 @@ use KHerGe\Enum\AbstractEnum;
 class Example extends AbstractEnum
 {
     /**
-     * A one variant.
+     * A "ONE" element.
      */
     const ONE = 1;
 
     /**
-     * A two variant.
+     * A "TWO" element.
      */
     const TWO = 2;
 }
