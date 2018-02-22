@@ -12,85 +12,18 @@ Usage
 ```php
 use KHerGe\Enum\AbstractEnum;
 
-/**
- * An example enum.
- */
-class Example extends AbstractEnum
+final class System extends AbstractEnum
 {
-    const ONE = 1;
-    const TWO = 'two';
+    const LINUX = 1;
+    const MACOS = 3;
+    const WINDOWS = 2;
 }
 
-// Get the value of an enum variant for its name.
-$value = Example::valueOf('ONE');
+$system = System::LINUX();
 
-// Get the name of an enum variant for its value.
-$name = Example::nameOf('two');
-
-// Create an instance of the enum for a variant.
-$one = Example::ONE();
-
-/**
- * Prints the name and value of a variant.
- */
-function display(Example $enum)
-{
-    echo $enum->getName(), ' = ', $enum->getValue(), "\n";
+if ($system instanceof System) {
+    // Oh, yes...
 }
-
-// Name and value can be retrieved from an instance.
-display($one);
-
-// Create an instance of the enum for a variant and include arguments.
-$two = Example::TWO('a', 'b', 'c');
-
-/**
- * Prints the arguments for a variant.
- */
-function arguments(Example $enum)
-{
-    foreach ($enum->getArguments() as $argument) {
-        echo ' - ', $argument, "\n";
-    }
-}
-
-// Access the arguments for the variant.
-arguments($two);
-
-// Instances can also be compared for equality (ignores arguments).
-if (Example::ONE()->is(Example::ONE())) {
-    // ... equivalent ...
-}
-
-// Instances can also be compared for equality (with arguments).
-if (!Example::ONE()->isExactly(Example::ONE('a', 'b', 'c'))) {
-    // ... not equivalent ...
-}
-
-// All variant names can be retrieved.
-$names = Example::getNames();
-
-// All variant values can be retrieved.
-$values = Example::getValues();
-
-// A map of all variant names and values can be retrieved.
-$variants = Example::toArray();
-
-// Check if a variant is valid.
-if (Example::has('ONE')) {
-    // ... valid ...
-}
-
-// Check if a variant value is valid.
-if (Example::hasValue(1)) {
-    // ... valid ...
-}
-
-// Create a new enum variant instance using a name.
-$one = Example::of('ONE');
-
-// Create a new enum variant instance using a value.
-$one = Example::ofValue(1);
 ```
 
 Requirements
@@ -104,6 +37,174 @@ Installation
 Use Composer to install the package as a dependency.
 
     $ composer require kherge/enum
+
+Documentation
+-------------
+
+## Creating an Enum
+
+A new enum is created by creating a new class that extends `KHerGe\Enum\AbstractEnum`.
+
+```php
+use KHerGe\Enum\AbstractEnum;
+
+/**
+ * My example enum.
+ */
+final class Example extends AbstractEnum
+{
+    /**
+     * A "ONE" element.
+     */
+    const ONE = 1;
+
+    /**
+     * A "TWO" element.
+     */
+    const TWO = 2;
+
+    /**
+     * A "THREE" element.
+     */
+    const THREE = 3;
+}
+```
+
+## Using Elements
+
+Elements are used by creating instances of the enum class they belong to. To create a new instance, the name of the element is statically invoked for the enum class. This allows parameter type hints to limit only to valid instances of the enum.
+
+```php
+$one = Example::ONE();
+
+if ($one instanceof Example) {
+    // it is an instance
+}
+```
+
+An instance can be created if you have the name of an element,
+
+```php
+$one = Example::of('ONE');
+```
+
+or its value.
+
+```php
+$one = Example::ofValue(1);
+```
+
+### Element Attributes
+
+You can retrieve the name of an element from its instance
+
+```php
+// "ONE"
+print_r($one->getName());
+```
+
+as well as its value.
+
+```php
+// 1
+print_r($one->getValue());
+```
+
+### Element Arguments
+
+Optionally, you may include arguments with your element instances.
+
+```php
+$one = Example::ONE('something');
+
+// Array ( [0] => something )
+print_r($one->getArguments());
+```
+
+## Getting Elements
+
+You can retrieve a list of all the element names,
+
+```php
+// Array ( [0] => ONE, [1] => TWO )
+print_r(Example::getNames());
+```
+
+as well as their values.
+
+```php
+// Array ( [0] => 1, [1] => 2 )
+print_r(Example::getValues());
+```
+
+It is also possible to retrieve a map of names to values.
+
+```php
+// Array ( [ONE] =>, [TWO] => 2 )
+print_r(Example::toArray());
+```
+
+The name of the element can be retrived for its value,
+
+```php
+// "ONE"
+print_r(Example::nameOf(1));
+```
+
+and the value of the element can be retrieved for its name.
+
+```php
+// 1
+print_r(Example::valueOf('ONE'));
+```
+
+## Comparing Elements
+
+It is possible to compare instances of enum elements.
+
+```php
+$element = Example::ONE();
+
+if (Example::ONE()->is($element)) {
+    // It is ONE.
+}
+
+if (Example::ONE('a', 'b', 'c')->is($element)) {
+    // It is ONE, even if the arguments are different.
+}
+```
+
+It is also possible to compare compare instances with their arguments.
+
+```php
+$element = Example::ONE('a', 'b', 'c');
+
+if (Example::ONE()->isExactly($element)) {
+    // Never make it this far, does not match.
+}
+
+if (Example::ONE('a', 'b', 'c')->is($element)) {
+    // It is a perfect match.
+}
+```
+
+## Checking Elements
+
+The name of an element element can be validated,
+
+```php
+if (Example::has('ONE')) {
+    // It is valid.
+}
+```
+
+as well as its value.
+
+```php
+if (Example::hasValue(1)) {
+    // It is valid.
+}
+```
 
 Testing
 -------
